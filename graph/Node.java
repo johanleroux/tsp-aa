@@ -15,6 +15,13 @@ public abstract class Node {
     public int getY () {
         return y;
     }
+    
+    public double distanceTo (Node other) {
+        double xDiff = getX() - other.getX();
+        double yDiff = getY() - other.getY();
+
+        return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+    }
 
     @Override
     public boolean equals (Object o) {

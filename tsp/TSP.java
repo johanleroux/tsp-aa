@@ -1,71 +1,83 @@
 package tsp;
 
 import java.util.Random;
-
 import graph.*;
 
 public class TSP {
-	public int antCount, locationCount, iterations;
-	
 	TspGui tspGui;
 	private Random r;
-	private Graph map;
 	
+	private Statistics stats;
+	private Graph map;	
 	private Colony colony;
-	private Ant overallFittest = null;
 	
-	public TSP(TspGui tspGui, Random r) {
+	public TSP(TspGui tspGui) {
 		this.tspGui = tspGui;
-		this.r = r;
-		
-		this.antCount = 100;
-		this.iterations = 0;
-		this.locationCount = 50;
-		
+		this.r = new Random(523515415);
 		initMap();
 		
-		this.colony = new Colony(this.map);
+		this.stats = new Statistics();
+
+		while(Configuration.testRun && stats.testRuns < Configuration.testRuns) {
+			this.colony = new Colony(this.map);
+			
+			this.stats.reset();
 		
-		run();
+			run();
+			
+			stats.testRuns++;
+		}
 	}
 	
-	public void run() {	
-		for (iterations = 0; iterations < 1000; iterations++) {
-			Ant iterationFittest = iterate();
+	public void run() {		
+		// Set random pheromone levels
+        for (Vertex v : map) {
+            for (Edge e : v) {
+            	e.setPheromone(0 + (Configuration.pheromone - 0) * r.nextDouble());
+            }
+        }
+        
+        while (stats.stuckIterations < 100) {
+			iterate();
 			
-			System.out.print("Iteration fittest ");
-			System.out.println(iterationFittest);
+			stats.iterations++;
 			
-			tspGui.draw(overallFittest, iterationFittest);
-		}
+			tspGui.draw(stats);	
+        }
 			
 		System.out.print("Fittest ant ");
-		System.out.println(overallFittest);
+		System.out.println(stats.overallBest);
 	}
 
-	public Ant iterate() {	
-		this.colony.init(this.antCount);
+	public void iterate() {
+		// Place all ants on origin node
+		this.colony.init();
 		
+		// Let ants travel
 		this.colony.travel();
 		
+		// Update Pheromones		
 		this.colony.update();
 		
-		Ant iterationFittest = colony.fittest();
+		// Calculate statistics
+		stats.iterationBest = colony.fittest();
 		
-		if (overallFittest == null) {
-			overallFittest = iterationFittest;
-        } else if (iterationFittest.fitness < overallFittest.fitness) {
-        	overallFittest = iterationFittest;
+		if (stats.overallBest == null) {
+			stats.overallBest = stats.iterationBest;
+			stats.stuckIterations = 0;
+        } else if (stats.iterationBest.fitness < stats.overallBest.fitness) {
+        	stats.overallBest = stats.iterationBest;
+        	stats.stuckIterations = 0;
+        } else {
+        	stats.stuckIterations++;
         }
-		
-		return iterationFittest;
 	}
 	
 	private void initMap() {
 		Graph map = new Graph();
-		Vertex[] locations = new Vertex[this.locationCount];
+		Vertex[] locations = new Vertex[Configuration.locationCount];
 		
-		for (int i = 0; i < this.locationCount; i++) {
+		for (int i = 0; i < Configuration.locationCount; i++) {
 			int x = randomBetween(10, 1270);
 			int y = randomBetween(10, 710);
 			Vertex location = new Vertex(x, y);
@@ -74,7 +86,7 @@ public class TSP {
 		}
 
         for (Vertex v : map) {
-            for (int i = 0; i < this.locationCount; i++) {
+            for (int i = 0; i < Configuration.locationCount; i++) {
                 if (locations[i] != v) {
                 	map.addEdge(v, locations[i]);
                 }
@@ -87,13 +99,4 @@ public class TSP {
 	private int randomBetween(int min, int max) {
 		return r.nextInt((max - min) + 1) + min;
 	}
-	
-	
-    private static void delay(int ms) {
-        try {
-            Thread.sleep(ms);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }
