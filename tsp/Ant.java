@@ -116,7 +116,7 @@ public class Ant {
     }
 
     private double desirability (Edge e) {
-        double pheromone = Math.pow(e.getPheromone(), Configuration.alpha);
+        double pheromone = Math.pow(e.pheromone, Configuration.alpha);
         double distance = current.distanceTo(e);
         double distanceValue = Math.pow(1/distance, Configuration.beta);
         return pheromone * distanceValue;

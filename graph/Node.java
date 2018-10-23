@@ -42,10 +42,7 @@ public abstract class Node {
 
     @Override
     public String toString () {
-        return "Node{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "Node {x=" + x + ", y=" + y + "}";
     }
 
 }

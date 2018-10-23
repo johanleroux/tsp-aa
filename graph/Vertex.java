@@ -46,11 +46,7 @@ public class Vertex extends Node implements Iterable<Edge> {
 
     @Override
     public String toString () {
-        return "Vertex{" +
-                "x=" + x +
-                ", y=" + y +
-                ", edges=" + hashMap +
-                '}';
+        return "Vertex {x=" + x + ", y=" + y + ", edges=" + hashMap +"}";
     }
 
 }

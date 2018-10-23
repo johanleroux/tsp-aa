@@ -58,22 +58,22 @@ public class Colony {
             Edge e2 = map.getVertex(edges[i]).getEdge(edges[i-1]);
 
             // The pheromones.
-            double p1 = e1.getPheromone();
-            double p2 = e2.getPheromone();
+            double p1 = e1.pheromone;
+            double p2 = e2.pheromone;
 
             hashSet.add(e1);
             hashSet.add(e2);
 
-            e1.setPheromone(probability*p1 + 1.0/eval);
-            e2.setPheromone(probability*p2 + 1.0/eval);
+            e1.pheromone = probability*p1 + 1.0/eval;
+            e2.pheromone = probability*p2 + 1.0/eval;
         }
 
         // Evaporate the pheromones on all the rest of the edges.
         for (Vertex v : map) {
             for (Edge e : v) {
                 if (!hashSet.contains(e)) {
-                    double p = e.getPheromone();
-                    e.setPheromone(probability*p);
+                    double p = e.pheromone;
+                    e.pheromone = probability*p;
                 }
             }
         }    

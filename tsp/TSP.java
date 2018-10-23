@@ -37,7 +37,7 @@ public class TSP {
 		// Set random pheromone levels
         for (Vertex v : map) {
             for (Edge e : v) {
-            	e.setPheromone(0 + (Configuration.pheromone - 0) * r.nextDouble());
+            	e.pheromone = 0 + (Configuration.pheromone - 0) * r.nextDouble();
             }
         }
         
@@ -85,18 +85,14 @@ public class TSP {
 		Graph map = new Graph();
 		Vertex[] locations = new Vertex[Configuration.locationCount];
 		
-		System.out.println("Map:");
 		for (int i = 0; i < Configuration.locationCount; i++) {
 			int x = randomBetween(10, 1270);
 			int y = randomBetween(10, 710);
 			Vertex location = new Vertex(x, y);
-
-			System.out.print("x: " + x + "," + "y: " + y);
 			
 			locations[i] = location;
 			map.addVertex(location);
 		}
-		System.out.println("");
 		
         for (Vertex v : map) {
             for (int i = 0; i < Configuration.locationCount; i++) {
