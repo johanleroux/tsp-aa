@@ -10,7 +10,7 @@ import os
 import glob
 
 extension = 'csv'
-result = [i for i in glob.glob('data/test_1.00_5.00_0.10_0.30_4.{}'.format(extension))]
+result = [i for i in glob.glob('data/test_*.{}'.format(extension))]
 
 for i, file in enumerate(result):
     df = pd.read_csv(file)

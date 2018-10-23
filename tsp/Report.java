@@ -49,6 +49,8 @@ public class Report {
 		    
 		    try {
 				PrintWriter writer = new PrintWriter(file);
+
+				writer.println("gen,best,avg");
 				
 				for (int i = 0; i < bests.size(); i++) {
 					String line = String.format(
