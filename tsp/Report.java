@@ -1,8 +1,26 @@
 package tsp;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Report {
+	ArrayList<Double> bests, averages;
+
+	public Report() {
+		bests = new ArrayList<Double>();
+		averages = new ArrayList<Double>();
+	}
+
+	public void clear() {
+		bests.clear();
+		averages.clear();
+	}
+
+	public void addIteration(double best, double avg) {
+		bests.add(best);
+		averages.add(avg);
+	}
+
 	public void write() {
 		File dataFolder = new File("data");
 		
@@ -30,11 +48,19 @@ public class Report {
 		    }
 		    
 		    try {
-		        PrintWriter writer = new PrintWriter(file); 
-		  
-		        writer.println("The first line");
-		        writer.println("The second line");
-		        writer.close();
+				PrintWriter writer = new PrintWriter(file);
+				
+				for (int i = 0; i < bests.size(); i++) {
+					String line = String.format(
+						"%d,%.4f,%.4f",
+						i,
+						bests.get(i),
+						averages.get(i)
+					);
+					writer.println(line);
+				}
+				writer.close();
+				clear();
 		        break;
 		    } 
 		    catch (IOException e) {

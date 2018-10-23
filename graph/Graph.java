@@ -2,11 +2,7 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-
-import tsp.Ant;
-import tsp.Configuration;
 
 public class Graph implements Iterable<Vertex> {
 	private HashMap<Integer, Vertex> hashMap;

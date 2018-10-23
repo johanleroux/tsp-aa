@@ -5,7 +5,7 @@ public class Statistics {
 	
 	public int iterations, stuckIterations = 0;
 	
-	public int testRuns = 0;
+	public int testRuns = 1;
 	
 	public Statistics() {
 		this.iterations = 0;

@@ -10,6 +10,8 @@ public class TSP {
 	private Statistics stats;
 	private Graph map;	
 	private Colony colony;
+
+	private Report report;
 	
 	public TSP(TspGui tspGui) {
 		this.tspGui = tspGui;
@@ -18,7 +20,9 @@ public class TSP {
 		
 		this.stats = new Statistics();
 
-		while(Configuration.testRun && stats.testRuns < Configuration.testRuns) {
+		this.report = new Report();
+
+		while(Configuration.testRun && stats.testRuns <= Configuration.testRuns) {
 			this.colony = new Colony(this.map);
 			
 			this.stats.reset();
@@ -37,13 +41,17 @@ public class TSP {
             }
         }
         
-        while (stats.stuckIterations < 100) {
+        while (stats.stuckIterations < Configuration.stuckIterations) {
 			iterate();
 			
 			stats.iterations++;
 			
-			tspGui.draw(stats);	
-        }
+			tspGui.draw(stats);
+
+			report.addIteration(stats.overallBest.fitness, this.colony.averageFitness());
+		}
+		
+		report.write();
 			
 		System.out.print("Fittest ant ");
 		System.out.println(stats.overallBest);
@@ -77,14 +85,19 @@ public class TSP {
 		Graph map = new Graph();
 		Vertex[] locations = new Vertex[Configuration.locationCount];
 		
+		System.out.println("Map:");
 		for (int i = 0; i < Configuration.locationCount; i++) {
 			int x = randomBetween(10, 1270);
 			int y = randomBetween(10, 710);
 			Vertex location = new Vertex(x, y);
+
+			System.out.print("x: " + x + "," + "y: " + y);
+			
 			locations[i] = location;
 			map.addVertex(location);
 		}
-
+		System.out.println("");
+		
         for (Vertex v : map) {
             for (int i = 0; i < Configuration.locationCount; i++) {
                 if (locations[i] != v) {

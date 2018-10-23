@@ -113,7 +113,10 @@ public class TspGui extends JFrame {
         			"",
         			"Alpha: " + Configuration.alpha,
         			"Beta: " + Configuration.beta,
-        			"Evaporation Rate: " + Configuration.evaporation
+                    "Evaporation Rate: " + Configuration.evaporation,
+                    "",
+        			"Testing: " + Configuration.testRun,
+        			"Testing Runs: " + stats.testRuns + "/" + Configuration.testRuns,
         	};
         	
         	int i = 10;

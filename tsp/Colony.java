@@ -81,5 +81,15 @@ public class Colony {
 
 	public Ant fittest() {
 		return fittestAnt;
-	}
+    }
+    
+    public double averageFitness() {
+        double fitness = 0;
+
+        for (Ant ant : ants) {
+            fitness += ant.fitness;
+        }
+
+        return fitness / ants.length;
+    }
 }
