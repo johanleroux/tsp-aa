@@ -31,9 +31,7 @@ public class Colony {
         for (Ant ant : ants) {
             ant.travel();
             
-            ant.fitness();
-            
-            if (ant.fitness < fittestAnt.fitness) 
+            if (ant.fitness() < fittestAnt.fitness()) 
             	fittestAnt = ant;
         }
 	}
@@ -45,10 +43,6 @@ public class Colony {
 	}
 	
 	public void updatePheromone(Ant ant) {
-        double eval = ant.fitness;
-
-        double probability = (1 - Configuration.evaporation);
-
         Node[] edges = ant.getTour();
 
         HashSet<Edge> hashSet = new HashSet<>();
@@ -57,23 +51,21 @@ public class Colony {
             Edge e1 = map.getVertex(edges[i-1]).getEdge(edges[i]);
             Edge e2 = map.getVertex(edges[i]).getEdge(edges[i-1]);
 
-            // The pheromones.
             double p1 = e1.pheromone;
             double p2 = e2.pheromone;
 
             hashSet.add(e1);
             hashSet.add(e2);
 
-            e1.pheromone = probability*p1 + 1.0/eval;
-            e2.pheromone = probability*p2 + 1.0/eval;
+            e1.pheromone = Configuration.evaporation * p1 + 1.0 / ant.fitness();
+            e2.pheromone = Configuration.evaporation * p2 + 1.0 / ant.fitness();
         }
 
-        // Evaporate the pheromones on all the rest of the edges.
         for (Vertex v : map) {
             for (Edge e : v) {
                 if (!hashSet.contains(e)) {
                     double p = e.pheromone;
-                    e.pheromone = probability*p;
+                    e.pheromone = Configuration.evaporation * p;
                 }
             }
         }    
@@ -87,7 +79,7 @@ public class Colony {
         double fitness = 0;
 
         for (Ant ant : ants) {
-            fitness += ant.fitness;
+            fitness += ant.fitness();
         }
 
         return fitness / ants.length;

@@ -20,7 +20,10 @@ for i, file in enumerate(result):
     df_external_source = FF.create_table(df.head())
 
     trace_fittest = go.Scatter(x = df['gen'], y = df['best'],
-                    name='Fittest individual')
+                    name='Overall Fittest individual')
+
+    trace_iteration = go.Scatter(x = df['gen'], y = df['iteration'],
+                    name='Iteration Fittest individual')
 
     trace_average = go.Scatter(x = df['gen'], y = df['avg'],
                     name='Average individual')
@@ -58,7 +61,7 @@ for i, file in enumerate(result):
         }
     )
 
-    fig = go.Figure(data=[trace_fittest, trace_average], layout=layout)
+    fig = go.Figure(data=[trace_fittest, trace_average, trace_iteration], layout=layout)
     pio.write_image(fig, file + '.png')
 
     #py.iplot(fig, filename='Tournament Selection (Elitism 1%) - ' + str(i))

@@ -4,20 +4,23 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Report {
-	ArrayList<Double> bests, averages;
+	ArrayList<Double> overall_bests, iteration_bests, averages;
 
 	public Report() {
-		bests = new ArrayList<Double>();
+		overall_bests = new ArrayList<Double>();
+		iteration_bests = new ArrayList<Double>();
 		averages = new ArrayList<Double>();
 	}
 
 	public void clear() {
-		bests.clear();
+		overall_bests.clear();
+		iteration_bests.clear();
 		averages.clear();
 	}
 
-	public void addIteration(double best, double avg) {
-		bests.add(best);
+	public void addIteration(double overall, double iteration, double avg) {
+		overall_bests.add(overall);
+		iteration_bests.add(iteration);
 		averages.add(avg);
 	}
 
@@ -50,13 +53,14 @@ public class Report {
 		    try {
 				PrintWriter writer = new PrintWriter(file);
 
-				writer.println("gen,best,avg");
+				writer.println("gen,best,iteration,avg");
 				
-				for (int i = 0; i < bests.size(); i++) {
+				for (int i = 2; i < averages.size(); i++) {
 					String line = String.format(
-						"%d,%.4f,%.4f",
+						"%d,%.4f,%.4f,%.4f",
 						i,
-						bests.get(i),
+						overall_bests.get(i),
+						iteration_bests.get(i),
 						averages.get(i)
 					);
 					writer.println(line);

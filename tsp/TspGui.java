@@ -105,8 +105,8 @@ public class TspGui extends JFrame {
         	String[] printStats = {
         			"Stuck Iterations: " + stats.stuckIterations, 
         			"Iterations: " + stats.iterations, 
-        			"Overall Best: " + stats.overallBest.fitness,
-        			"Iteration Best: " + stats.iterationBest.fitness,
+        			"Overall Best: " + stats.overallBest.fitness(),
+        			"Iteration Best: " + stats.iterationBest.fitness(),
         			"",
         			"Ant Count: " + Configuration.antCount,
         			"Location Count: " + Configuration.locationCount,

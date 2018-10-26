@@ -7,7 +7,7 @@ public final class Configuration {
 	
 	public static double alpha = 1;
 	public static double beta = 5;
-	public static double evaporation = 0.1;
+	public static double evaporation = 0.5;
 	public static double pheromone = 0.3;
 	
 	public static int testRuns = 10;

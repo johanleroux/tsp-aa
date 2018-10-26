@@ -22,7 +22,7 @@ public class TSP {
 
 		this.report = new Report();
 
-		while(Configuration.testRun && stats.testRuns <= Configuration.testRuns) {
+		while(stats.testRuns <= Configuration.testRuns) {
 			this.colony = new Colony(this.map);
 			
 			this.stats.reset();
@@ -30,6 +30,10 @@ public class TSP {
 			run();
 			
 			stats.testRuns++;
+
+			if(!Configuration.testRun) {
+				break;
+			}
 		}
 	}
 	
@@ -48,7 +52,7 @@ public class TSP {
 			
 			tspGui.draw(stats);
 
-			report.addIteration(stats.overallBest.fitness, this.colony.averageFitness());
+			report.addIteration(stats.overallBest.fitness(), stats.iterationBest.fitness(), this.colony.averageFitness());
 		}
 		
 		report.write();
@@ -73,7 +77,7 @@ public class TSP {
 		if (stats.overallBest == null) {
 			stats.overallBest = stats.iterationBest;
 			stats.stuckIterations = 0;
-        } else if (stats.iterationBest.fitness < stats.overallBest.fitness) {
+        } else if (stats.iterationBest.fitness() < stats.overallBest.fitness()) {
         	stats.overallBest = stats.iterationBest;
         	stats.stuckIterations = 0;
         } else {

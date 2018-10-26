@@ -3,7 +3,7 @@ import glob
 import csv
 
 extension = 'csv'
-result = [i for i in glob.glob('data/test_1.00_5.00_0.10*.{}'.format(extension))]
+result = [i for i in glob.glob('data/test_1.00_5.00_0.50*.{}'.format(extension))]
 
 gens = 0
 best = 999999999999

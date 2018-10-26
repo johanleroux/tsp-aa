@@ -6,7 +6,7 @@ public class Edge extends Node {
 
     public Edge (int x, int y) {
         super(x, y);
-        pheromone = 0.01;
+        pheromone = 0.0;
     }
 
     @Override

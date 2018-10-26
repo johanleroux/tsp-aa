@@ -8,7 +8,7 @@ public class Ant {
     private Node current;
     private HashSet<Node> tabuList;
     private ArrayList<Node> route;
-	public int fitness;
+	private int fitness = 0;
     
     public Ant (Graph map) {
         this.map = map;
@@ -51,13 +51,15 @@ public class Ant {
     }
 
     public double fitness () {
+        if (fitness != 0) return fitness;
+
         int eval = 0;
 
         for (int i = 1; i < route.size(); i++) {
             eval += route.get(i).distanceTo(route.get(i-1));
         }
 
-        this.fitness = eval;
+        fitness = eval;
         return eval;
     }
 
